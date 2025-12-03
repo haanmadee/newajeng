@@ -2,86 +2,63 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vogue Style Editorial Slider</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Playfair Display (Serif mewah) & Montserrat (Sans bersih) -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
-        /* UPDATED: Background Color #e8e8e8 */
         body { font-family: 'Montserrat', sans-serif; overflow: hidden; background-color: #e8e8e8; }
-        h1, h2, .serif-font { font-family: 'Playfair Display', Poppins; }
+        h1, h2, .serif-font { font-family: 'Playfair Display', serif; }
 
         /* Smooth Slider Wrapper */
         .slider-track {
             display: flex;
-            width: 400vw; /* 4 Slides x 100vw */
-            height: 350px;
-            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1); /* Custom Easing 'Quart' style */
+            width: 400vw;
+            height: 100vh;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
             will-change: transform;
         }
 
         .slide {
             width: 100vw;
-            height: 350px;
+            height: 100vh;
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            display: flex;
+            display: flex; /* Flexbox untuk centering */
             align-items: center;
-            padding: 0 5vw;
-        }
-
-        /* --- ANIMATION LOGIC --- */
-        /* Elemen awal: Tersembunyi & Geser sedikit */
-        .reveal-text, .reveal-img, .reveal-shape {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1s ease-out;
+            /* Padding dikurangi untuk Mobile */
+            padding: 0; 
         }
         
+        @media (min-width: 768px) {
+            .slide { padding: 0 5vw; }
+        }
+
+        /* ANIMATION LOGIC */
+        .reveal-text, .reveal-img, .reveal-shape { opacity: 0; transform: translateY(40px); transition: all 1s ease-out; }
         .reveal-img { transform: scale(1.1) translateY(20px); filter: grayscale(100%); }
         .reveal-left { transform: translateX(-30px); opacity: 0; transition: all 1s ease-out; }
         .reveal-right { transform: translateX(30px); opacity: 0; transition: all 1s ease-out; }
 
-        /* Saat slide AKTIF: Kembalikan ke posisi normal */
-        .slide.active .reveal-text,
-        .slide.active .reveal-shape {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
+        .slide.active .reveal-text, .slide.active .reveal-shape { opacity: 1; transform: translateY(0); }
         .slide.active .reveal-left { transform: translateX(0); opacity: 1; }
         .slide.active .reveal-right { transform: translateX(0); opacity: 1; }
+        .slide.active .reveal-img { opacity: 1; transform: scale(1) translateY(0); filter: grayscale(0%); transition: transform 1.2s ease-out, filter 1.5s ease; }
 
-        .slide.active .reveal-img {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            filter: grayscale(0%); /* Efek warna muncul pelan-pelan */
-            transition: transform 1.2s ease-out, filter 1.5s ease;
-        }
-
-        /* DELAY CLASSES (Agar munculnya gantian/staggered) */
         .d-100 { transition-delay: 0.1s; }
         .d-200 { transition-delay: 0.3s; }
         .d-300 { transition-delay: 0.5s; }
         .d-400 { transition-delay: 0.7s; }
         .d-500 { transition-delay: 0.9s; }
 
-        /* Vertical Text Utility */
-        .writing-vertical {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
-        }
+        .writing-vertical { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); }
 
-        /* Pink Blur Blob */
         .blob {
             position: absolute;
-            background: rgba(64, 58, 97, 0.4); /* Pink soft */
-            filter: blur(80px); /* Ditingkatkan untuk Slide 3 */
+            background: rgba(64, 58, 97, 0.4);
+            filter: blur(60px);
             border-radius: 50%;
             z-index: -1;
         }
@@ -89,218 +66,180 @@
 </head>
 <body class="text-gray-900">
 
-    <!-- TOP NAVIGATION (Fixed) -->
-    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-10 py-6 mix-blend-difference text-gray-800">
-        <div class="text-2xl font-bold tracking-widest serif-font">AJENGWAHYS</div>
+    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-5 py-4 md:px-10 md:py-6 mix-blend-difference text-gray-800">
+        <div class="text-lg md:text-2xl font-bold tracking-widest serif-font">AJENGWAHYS</div>
         <div class="hidden md:flex space-x-8 text-xs font-semibold tracking-widest uppercase">
-            <a href="https://wa.link/g340vm" class="hover:text-pink-500 transition">Contact Me</a>
-            <a href="https://www.instagram.com/ajengwahys?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="hover:text-pink-500 transition">Instagram</a>
-            <a href="https://www.tiktok.com/@ajengwahyst?is_from_webapp=1&sender_device=pc" class="hover:text-pink-500 transition">Tiktok</a>
-            <a href="amihsadda@gmail.com" class="hover:text-pink-500 transition">Gmail</a>
+            <a href="https://wa.link/g340vm" class="hover:text-pink-500 transition">Contact</a>
+            <a href="#" class="hover:text-pink-500 transition">Instagram</a>
+            <a href="#" class="hover:text-pink-500 transition">Tiktok</a>
+            <a href="#" class="hover:text-pink-500 transition">Gmail</a>
         </div>
-        <div class="text-xs font-bold border-b-2 border-black pb-1 cursor-pointer">MENU =</div>
+        <div class="text-[10px] md:text-xs font-bold border-b-2 border-black pb-1 cursor-pointer">MENU =</div>
     </nav>
 
-    <!-- MAIN SLIDER TRACK -->
     <div class="slider-track" id="track">
 
-        <!-- SLIDE 1: THE LITTLE VANITY (Layout Asimetris) -->
         <div class="slide bg-[#e8e8e8] active" id="slide-0">
-            <!-- Background Shape -->
-            <div class="blob w-96 h-96 top-20 right-1/4 reveal-shape d-500"></div>
+            <div class="blob w-64 h-64 md:w-96 md:h-96 top-20 right-0 md:right-1/4 reveal-shape d-500"></div>
 
-            <div class="grid grid-cols-12 w-full h-full items-center">
-                <!-- Left Image -->
-                <div class="col-span-12 md:col-span-5 h-[70vh] relative reveal-left d-100">
+            <div class="grid grid-cols-12 w-full h-full items-center content-center px-5 md:px-0">
+                <div class="col-span-12 md:col-span-5 h-[40vh] md:h-[70vh] relative reveal-left d-100 mb-4 md:mb-0 order-1 md:order-1">
                     <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764744948136_5742658.png" 
-                         class="w-full h-full object-contain shadow-xl reveal-img" alt="Model Portrait">
-                    <div class="absolute -bottom-10 -right-10 text-9xl font-bold text-gray-100 -z-10 serif-font">01</div>
+                         class="w-full h-full object-contain md:object-contain shadow-xl reveal-img" alt="Model Portrait">
+                    <div class="absolute -bottom-5 -right-5 md:-bottom-10 md:-right-10 text-6xl md:text-9xl font-bold text-gray-100 -z-10 serif-font">01</div>
                 </div>
 
-                <!-- Right Content -->
-                <div class="col-span-12 md:col-span-7 pl-10 md:pl-20 relative">
-                    <h4 class="text-sm font-bold tracking-[0.3em] text-gray-500 mb-4 reveal-text d-200"></h4>
-                    <h1 class="text-6xl md:text-8xl font-serif leading-tight mb-6 reveal-text d-300">
+                <div class="col-span-12 md:col-span-7 md:pl-20 relative order-2 md:order-2 flex flex-col justify-center">
+                    <h4 class="text-[10px] md:text-sm font-bold tracking-[0.3em] text-gray-500 mb-2 md:mb-4 reveal-text d-200">PROFILE</h4>
+                    
+                    <h1 class="text-3xl sm:text-4xl md:text-8xl font-serif leading-tight mb-3 md:mb-6 reveal-text d-300">
                         +6 YEARS <br> <span class="italic text-navy-500">REMOTE WORKER</span>
                     </h1>
-                    <div class="flex items-center gap-4 reveal-text d-400">
-                        <div class="h-[1px] w-20 bg-black"></div>
-                        <p class="text-sm max-w-xs text-gray-600 leading-relaxed">
-                            Aku Ajeng, remote worker sejak 6 tahun lalu, sekarang sambil jadi mom full energy dan masih terus membangun work-from-anywhere.</p>
+                    
+                    <div class="flex items-center gap-2 md:gap-4 reveal-text d-400">
+                        <div class="hidden md:block h-[1px] w-20 bg-black"></div>
+                        <p class="text-xs md:text-sm max-w-md text-gray-600 leading-relaxed text-justify md:text-left">
+                            Aku Ajeng, remote worker sejak 6 tahun lalu, sekarang sambil jadi mom full energy dan masih terus membangun work-from-anywhere.
+                        </p>
                     </div>
-                    <button class="mt-10 px-8 py-3 bg-black text-white text-xs tracking-widest hover:bg-grey-500 transition-colors reveal-text d-500">
+                    
+                    <button class="mt-6 md:mt-10 px-6 py-2 md:px-8 md:py-3 bg-black text-white text-[10px] md:text-xs tracking-widest w-max hover:bg-gray-700 transition-colors reveal-text d-500">
                         FIND YOURS
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 2: WEEK IN FASHION (Layout Editorial Tengah) -->
         <div class="slide bg-white" id="slide-1">
-             <!-- Background Shape -->
-             <div class="blob w-[500px] h-[500px] bottom-0 left-20 reveal-shape d-100"></div>
+             <div class="blob w-64 h-64 md:w-[500px] md:h-[500px] bottom-0 left-0 reveal-shape d-100"></div>
 
             <div class="grid grid-cols-12 w-full h-full relative">
-                <!-- Vertical Text Title -->
                 <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-full flex flex-col justify-center pointer-events-none z-10">
-                    <h1 class="text-[12rem] text-gray-100 font-serif font-bold tracking-tighter opacity-30 writing-vertical reveal-text d-200">
+                    <h1 class="text-[5rem] md:text-[12rem] text-gray-100 font-serif font-bold tracking-tighter opacity-30 writing-vertical reveal-text d-200">
                         AJENG
                     </h1>
                 </div>
 
-                <!-- Left Content Block -->
-                <div class="col-span-4 flex flex-col justify-center px-10 z-20">
-                    <div class="border-t-4 border-black w-16 mb-6 reveal-left d-200"></div>
-                    <h2 class="text-4xl font-serif font-bold mb-4 reveal-left d-300">Awal Karier <br>di Dunia Remote</h2>
-                    <p class="text-gray-500 text-sm leading-7 mb-8 reveal-left d-400">
-                        Tahun 2019 aku mulai bekerja WFO. Di saat yang sama, rasa penasaranku pada dunia digital makin besar. Walaupun latar belakang pendidikanku Gizi Klinik (2018), aku justru menemukan minat kuat di desain dan media.
+                <div class="col-span-12 md:col-span-4 flex flex-col justify-end md:justify-center px-6 md:px-10 z-30 pb-20 md:pb-0 h-[40vh] md:h-auto absolute md:relative bottom-0 md:bottom-auto bg-white/80 md:bg-transparent w-full">
+                    <div class="border-t-4 border-black w-12 md:w-16 mb-4 md:mb-6 reveal-left d-200"></div>
+                    <h2 class="text-2xl md:text-4xl font-serif font-bold mb-2 md:mb-4 reveal-left d-300">Awal Karier <br>di Dunia Remote</h2>
+                    <p class="text-gray-600 text-xs md:text-sm leading-relaxed mb-4 md:mb-8 reveal-left d-400 line-clamp-3 md:line-clamp-none">
+                        Tahun 2019 aku mulai bekerja WFO. Di saat yang sama, rasa penasaranku pada dunia digital makin besar.
                     </p>
                     <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764746509848_4779435.png" 
-                         class="w-full h-48 object-cover grayscale hover:grayscale-0 transition duration-500 reveal-img d-500" alt="Detail Shot">
+                         class="hidden md:block w-full h-48 object-cover grayscale hover:grayscale-0 transition duration-500 reveal-img d-500" alt="Detail">
                 </div>
 
-                <!-- Spacer -->
-                <div class="col-span-4"></div>
+                <div class="hidden md:block col-span-4"></div>
 
-                <!-- Right Big Image -->
-                <div class="col-span-4 h-full relative reveal-right d-300">
+                <div class="col-span-12 md:col-span-4 h-full relative reveal-right d-300">
                     <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764746844248_1598500.png" 
-                         class="w-full h-full object-cover reveal-img" alt="Fashion Full">
+                         class="w-full h-[60vh] md:h-full object-cover object-top reveal-img" alt="Fashion Full">
                     
-                    <div class="absolute bottom-20 left-[-30px] bg-[#e8e8e8] p-6 shadow-2xl reveal-text d-500">
-                        <span class="text-4xl font-bold serif-font">So..</span>
-                        <div class="text-xs tracking-widest text-gray-500 mt-2">Jadi di luar jam kantor, aku mulai belajar, ikut kelas kecil, eksplor software, ambil project receh, dan ngetes diri sendiri pelan-pelan. Aku belum tau arahnya akan kemana, tapi aku tahu satu hal, dunia digital punya peluang, dan aku mau AKU SIAP ketika saatnya datang.</div>
+                    <div class="absolute bottom-1/2 md:bottom-20 right-0 md:left-[-30px] bg-[#e8e8e8] p-4 md:p-6 shadow-xl reveal-text d-500 w-3/4 md:w-auto">
+                        <span class="text-2xl md:text-4xl font-bold serif-font">So..</span>
+                        <div class="text-[10px] md:text-xs tracking-widest text-gray-500 mt-2 line-clamp-4 md:line-clamp-none">
+                            Di luar jam kantor, aku mulai belajar, ikut kelas kecil, eksplor software, dan ambil project receh.
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 3 (REVISED: Layered Luxury) -->
         <div class="slide bg-[#e8e8e8]" id="slide-2">
-            <!-- Background Decoration -->
-            <div class="blob w-[800px] h-[800px] -left-20 -bottom-40 bg-pink-200/50 reveal-shape d-100"></div>
+            <div class="blob w-64 h-64 md:w-[800px] md:h-[800px] -left-20 -bottom-40 bg-pink-200/50 reveal-shape d-100"></div>
 
-            <div class="grid grid-cols-12 w-full h-full px-4 md:px-10 relative items-center">
+            <div class="grid grid-cols-12 w-full h-full px-5 md:px-10 relative items-center content-center">
                 
-                <!-- KIRI: Typography & Konten -->
-                <div class="col-span-12 md:col-span-5 flex flex-col justify-center z-30 relative order-2 md:order-1 pl-10">
-                     <h2 class="text-xs font-bold tracking-[0.4em] text-navy-600 mb-6 reveal-left d-200 uppercase flex items-center gap-2">
+                <div class="col-span-12 md:col-span-5 flex flex-col justify-center z-30 relative order-2 md:order-1 pl-2 md:pl-10 mt-4 md:mt-0">
+                     <h2 class="text-[10px] md:text-xs font-bold tracking-[0.4em] text-navy-600 mb-2 md:mb-6 reveal-left d-200 uppercase flex items-center gap-2">
                         <span class="w-8 h-[2px] bg-navy-600"></span> Moment
                      </h2>
-                     <h1 class="text-6xl md:text-7xl font-serif font-bold leading-[0.9] mb-8 reveal-left d-300 text-gray-900">
+                     <h1 class="text-4xl md:text-7xl font-serif font-bold leading-[0.9] mb-4 md:mb-8 reveal-left d-300 text-gray-900">
                          Layoff <br>
                          <span class="italic font-light text-gray-500 font-serif">Jadi</span> <br>
                          Loncatan.
                      </h1>
-                     <p class="text-gray-600 w-full md:w-3/4 leading-relaxed text-sm mb-10 reveal-left d-400 border-l-2 border-gray-300 pl-6">
-                         Masuk 2020, pandemi datang dan aku kena layoff. Tapi karena sejak 2019 aku sudah bangun fondasi dan nyari peluang digital, transisinya tidak seberat itu. Justru layoff itu bikin aku lebih berani masuk ke remote working dengan serius. Dan sejak itu, jalanku makin jelas.
+                     <p class="text-gray-600 w-full md:w-3/4 leading-relaxed text-xs md:text-sm mb-6 md:mb-10 reveal-left d-400 border-l-2 border-gray-300 pl-4 md:pl-6">
+                         Masuk 2020, pandemi datang dan aku kena layoff. Tapi karena sejak 2019 aku sudah bangun fondasi, transisinya tidak berat.
                      </p>
                      <div class="reveal-left d-500">
                          <a href="#" class="group inline-flex items-center gap-3 text-xs font-bold tracking-widest transition">
                              <span class="border-b-2 border-black pb-1 group-hover:border-pink-600 group-hover:text-pink-600 transition-colors">Private 1 on 1</span>
-                             <svg class="w-4 h-4 transform group-hover:translate-x-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                          </a>
                      </div>
                 </div>
 
-                <!-- KANAN: Layered Images -->
-                <div class="col-span-12 md:col-span-7 h-full flex items-center relative z-10 reveal-right d-300 order-1 md:order-2">
-                     
-                     <!-- Gambar Besar -->
-                     <div class="w-full md:w-[90%] h-[75vh] relative overflow-hidden shadow-2xl z-10">
-                         <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764749073200_7413069.png" 
-                              class="w-full h-full object-contain reveal-img transition-transform duration-[2s] hover:scale-110" 
-                              alt="Main Fashion Shot" />
-                     </div>
-
-                     <!-- Gambar Kecil (Floating/Overlay) -->
-                     <div class="absolute bottom-20 -left-10 md:-left-20 w-48 h-64 border-6 border-[#e8e8e8] shadow-2xl z-20 reveal-img d-500 hidden md:block">
-                          <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764749519823_2650145.png" 
-                               class="w-full h-full object-cover hover:scale-105 transition duration-700" 
-                               alt="Detail Jewelry" />
-                     </div>
-                     
-                     <!-- Elemen Dekoratif Angka Besar -->
-                     <div class="absolute -top-10 right-0 text-[15rem] font-serif font-bold text-white mix-blend-overlay opacity-60 reveal-text d-100 pointer-events-none select-none">
-                         03
-                     </div>
+                <div class="col-span-12 md:col-span-7 h-[40vh] md:h-full flex items-center justify-center relative z-10 reveal-right d-300 order-1 md:order-2">
+                      <div class="w-full h-full relative overflow-hidden z-10 flex items-center justify-center">
+                          <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764749073200_7413069.png" 
+                               class="h-full w-auto object-contain reveal-img" alt="Main Fashion Shot" />
+                      </div>
+                      
+                      <div class="absolute -top-5 right-0 text-[8rem] md:text-[15rem] font-serif font-bold text-white mix-blend-overlay opacity-60 reveal-text d-100 pointer-events-none select-none">
+                          03
+                      </div>
                 </div>
 
             </div>
         </div>
 
-        <!-- SLIDE 4: MODERN MUSE (Layout Baru) -->
         <div class="slide bg-white" id="slide-3">
-             <div class="blob w-80 h-80 bottom-20 left-1/3 bg-purple-200 reveal-shape d-200"></div>
+             <div class="blob w-40 h-40 md:w-80 md:h-80 bottom-20 left-1/3 bg-purple-200 reveal-shape d-200"></div>
             
-            <div class="grid grid-cols-12 w-full h-full items-center px-10">
-                <!-- Left Title Content -->
-                <div class="col-span-5 relative z-20">
-                    <div class="text-[10rem] font-serif font-bold text-gray-100 absolute -top-40 left-0 -z-10 reveal-text d-100">04</div>
-                    <h2 class="text-6xl font-serif font-bold mb-6 reveal-left d-200">Let’s build <br> <span class="text-navy-500 italic">your remote journey</span></h2>
-                    <p class="text-gray-600 mb-8 leading-relaxed w-3/4 reveal-left d-300">
-                        Aku sudah ada di jalur ini 6 tahun. Kalau kamu butuh arah, perspektif, atau titik mula yang realistis. Aku di sini buat bantu kamu mulai dengan cara yang lebih terarah
+            <div class="grid grid-cols-12 w-full h-full items-center px-5 md:px-10 content-center">
+                <div class="col-span-12 md:col-span-5 relative z-20 order-2 md:order-1 mt-4 md:mt-0">
+                    <div class="text-[6rem] md:text-[10rem] font-serif font-bold text-gray-100 absolute -top-10 md:-top-40 left-0 -z-10 reveal-text d-100">04</div>
+                    <h2 class="text-3xl md:text-6xl font-serif font-bold mb-4 md:mb-6 reveal-left d-200">Let’s build <br> <span class="text-navy-500 italic">your journey</span></h2>
+                    <p class="text-gray-600 mb-6 md:mb-8 text-xs md:text-base leading-relaxed w-full md:w-3/4 reveal-left d-300">
+                        Aku di sini buat bantu kamu mulai dengan cara yang lebih terarah. Butuh arah, perspektif, atau titik mula yang realistis?
                     </p>
                     <div class="flex gap-4 reveal-left d-400">
-                        <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764750832887_7838923.png" class="w-32 h-40 object-cover grayscale" alt="Small Thumb">
-                        <div class="flex flex-col justify-end">
-                            <span class="text-xs font-bold tracking-widest border-b border-black pb-1"></span>
-                        </div>
+                        <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764750832887_7838923.png" class="w-20 h-24 md:w-32 md:h-40 object-cover grayscale" alt="Small Thumb">
                     </div>
                 </div>
 
-                <!-- Right Big Image Split -->
-                <div class="col-span-7 h-[85vh] relative reveal-right d-300">
-                     <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764750769402_2380678.png" 
-                         class="w-full h-full object-contain reveal-img" alt="Modern Muse Main">
-                     
-                     <!-- Decorative Text -->
-                     <div class="absolute top-10 right-10 writing-vertical text-xs tracking-[0.5em] font-bold text-navy mix-blend-difference reveal-text d-500">
-                         AJENGWAHYS | REMOTE WORKER
-                     </div>
+                <div class="col-span-12 md:col-span-7 h-[40vh] md:h-[85vh] relative reveal-right d-300 order-1 md:order-2">
+                      <img src="https://cdn.lynkid.my.id/draft-products/03-12-2025/1764750769402_2380678.png" 
+                           class="w-full h-full object-contain reveal-img" alt="Modern Muse Main">
+                      
+                      <div class="absolute top-5 right-5 md:top-10 md:right-10 writing-vertical text-[10px] md:text-xs tracking-[0.5em] font-bold text-navy mix-blend-difference reveal-text d-500">
+                          AJENGWAHYS | REMOTE
+                      </div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- NAVIGATION CONTROL (Bottom Right) -->
-    <div class="fixed bottom-10 right-10 z-50 flex flex-col items-end gap-4">
-        <!-- Page Indicator -->
-        <div class="text-2xl font-serif font-bold mb-2">
-            <span id="current-num">01</span> <span class="text-gray-400 text-lg">/ 04</span>
+    <div class="fixed bottom-5 right-5 md:bottom-10 md:right-10 z-50 flex flex-col items-end gap-2 md:gap-4">
+        <div class="text-lg md:text-2xl font-serif font-bold mb-1 md:mb-2">
+            <span id="current-num">01</span> <span class="text-gray-400 text-sm md:text-lg">/ 04</span>
         </div>
 
-        <!-- Arrows -->
-        <div class="flex gap-4">
-            <button onclick="prevSlide()" class="w-12 h-12 rounded-full border border-gray-400 flex items-center justify-center hover:bg-black hover:text-white transition duration-300 group">
-                <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        <div class="flex gap-2 md:gap-4">
+            <button onclick="prevSlide()" class="w-8 h-8 md:w-12 md:h-12 rounded-full border border-gray-400 flex items-center justify-center hover:bg-black hover:text-white transition duration-300 bg-white/50 backdrop-blur-sm">
+                <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
-            <button onclick="nextSlide()" class="w-12 h-12 rounded-full border border-black bg-black text-white flex items-center justify-center hover:bg-gray-800 transition duration-300 group shadow-lg">
-                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <button onclick="nextSlide()" class="w-8 h-8 md:w-12 md:h-12 rounded-full border border-black bg-black text-white flex items-center justify-center hover:bg-gray-800 transition duration-300 shadow-lg">
+                <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
-        </div>
-        
-        <!-- Socials -->
-        <div class="flex gap-4 mt-4 text-[10px] font-bold tracking-widest text-gray-400">
-            <span>TW</span>
-            <span>FB</span>
-            <span>INS</span>
         </div>
     </div>
 
     <script>
         let currentIndex = 0;
-        const totalSlides = 4; // 4 Slides
+        const totalSlides = 4;
         const track = document.getElementById('track');
         const slides = document.querySelectorAll('.slide');
         const numIndicator = document.getElementById('current-num');
 
-        function updateSlide() {
-            // 1. Geser Track Utama
-            track.style.transform = `translateX(-${currentIndex * 100}vw)`;
+        // Fungsi Touch untuk Swipe di HP
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-            // 2. Update Active Class untuk memicu animasi CSS
+        function updateSlide() {
+            track.style.transform = `translateX(-${currentIndex * 100}vw)`;
             slides.forEach((slide, index) => {
                 if(index === currentIndex) {
                     slide.classList.add('active');
@@ -308,8 +247,6 @@
                     slide.classList.remove('active');
                 }
             });
-
-            // 3. Update Angka Halaman (01, 02, etc)
             numIndicator.innerText = `0${currentIndex + 1}`;
         }
 
@@ -317,7 +254,7 @@
             if (currentIndex < totalSlides - 1) {
                 currentIndex++;
             } else {
-                currentIndex = 0; // Loop balik ke awal
+                currentIndex = 0;
             }
             updateSlide();
         }
@@ -326,23 +263,32 @@
             if (currentIndex > 0) {
                 currentIndex--;
             } else {
-                currentIndex = totalSlides - 1; // Loop ke akhir
+                currentIndex = totalSlides - 1;
             }
             updateSlide();
         }
 
-        // Jalankan update pertama kali agar animasi slide 1 jalan
-        setTimeout(() => {
-            updateSlide();
-        }, 100);
+        setTimeout(() => { updateSlide(); }, 100);
 
-        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if(e.key === 'ArrowRight') nextSlide();
             if(e.key === 'ArrowLeft') prevSlide();
         });
+
+        // Menambahkan Swipe support untuk Mobile
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide(); // Swipe Left
+            if (touchEndX > touchStartX + 50) prevSlide(); // Swipe Right
+        }
     </script>
 </body>
-
 </html>
-
